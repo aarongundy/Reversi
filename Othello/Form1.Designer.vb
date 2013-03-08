@@ -36,6 +36,7 @@ Partial Class Form1
         Me.lblWhiteCount = New System.Windows.Forms.Label()
         Me.lblBlackCount = New System.Windows.Forms.Label()
         Me.lblMessage = New System.Windows.Forms.Label()
+        Me.ListBox1 = New System.Windows.Forms.ListBox()
         Me.Panel1.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -105,7 +106,7 @@ Partial Class Form1
         Me.ShapeContainer2.Margin = New System.Windows.Forms.Padding(0)
         Me.ShapeContainer2.Name = "ShapeContainer2"
         Me.ShapeContainer2.Shapes.AddRange(New Microsoft.VisualBasic.PowerPacks.Shape() {Me.OvalShape2, Me.OvalShape1, Me.ovalTurn})
-        Me.ShapeContainer2.Size = New System.Drawing.Size(742, 723)
+        Me.ShapeContainer2.Size = New System.Drawing.Size(869, 723)
         Me.ShapeContainer2.TabIndex = 9
         Me.ShapeContainer2.TabStop = False
         '
@@ -179,11 +180,20 @@ Partial Class Form1
         Me.lblMessage.Size = New System.Drawing.Size(0, 13)
         Me.lblMessage.TabIndex = 14
         '
+        'ListBox1
+        '
+        Me.ListBox1.FormattingEnabled = True
+        Me.ListBox1.Location = New System.Drawing.Point(695, 227)
+        Me.ListBox1.Name = "ListBox1"
+        Me.ListBox1.Size = New System.Drawing.Size(120, 95)
+        Me.ListBox1.TabIndex = 15
+        '
         'Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(742, 723)
+        Me.ClientSize = New System.Drawing.Size(869, 723)
+        Me.Controls.Add(Me.ListBox1)
         Me.Controls.Add(Me.lblMessage)
         Me.Controls.Add(Me.lblBlackCount)
         Me.Controls.Add(Me.lblWhiteCount)
@@ -214,5 +224,6 @@ Partial Class Form1
     Friend WithEvents lblWhiteCount As System.Windows.Forms.Label
     Friend WithEvents lblBlackCount As System.Windows.Forms.Label
     Friend WithEvents lblMessage As System.Windows.Forms.Label
+    Friend WithEvents ListBox1 As System.Windows.Forms.ListBox
 
 End Class

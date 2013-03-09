@@ -19,6 +19,7 @@ Public Class Form1
     Dim turn As Integer
     Dim possible As Boolean
     Dim skipturn As Boolean
+    Dim compx, compy As Integer
 
     Private Sub Form1_Load(sender As System.Object, e As System.EventArgs) Handles MyBase.Load
         Dim CNT As Integer
@@ -125,11 +126,21 @@ Public Class Form1
         check(x, y)
 
         If Board(x, y) = 0 And possible = True Then
-            If turn Mod 2 = 1 Then ' White's Turn
-                Board(x, y) = 1
-            Else ' Black's Turn
-                Board(x, y) = 2
+            If playercount = 2 Then
+                If turn Mod 2 = 1 Then ' White's Turn
+                    Board(x, y) = 1
+                Else ' Black's Turn
+                    Board(x, y) = 2
+                End If
+            ElseIf playercount = 1 Then
+                If turn Mod 2 = 1 Then ' White's Turn
+                    turnCalc()
+                    Board(x, y) = 1
+                Else ' Black's Turn
+                    Board(x, y) = 2
+                End If
             End If
+            
 
             makeTurn()
 
@@ -745,9 +756,9 @@ Public Class Form1
             Next
         Next
 
-        If white + black = 64 Then
-            win(white, black)
-        End If
+        'If white + black = 64 Then
+        '    win(white, black)
+        'End If
 
         lblWhiteCount.Text = white
         lblBlackCount.Text = black
@@ -1326,15 +1337,17 @@ Public Class Form1
     End Sub
 
     Private Sub turnCalc()
+        possible = False
+
         For r = 1 To 8
             For c = 1 To 8
                 If Board(c, r) = 0 Then
                     possibleCheck(c, r)
-                End If
-
-                If possible = True Then
-                    skipturn = False
-                    Exit For
+                    If possible = True Then
+                        ListBox1.Items.Add("c: " & c & "  r: " & r)
+                        skipturn = False
+                        Exit For
+                    End If
                 End If
             Next
             If possible = True Then Exit For
@@ -1348,24 +1361,84 @@ Public Class Form1
 
             win(white, black)
         ElseIf possible = False Then
-            lblMessage.Text = "Player could not mover skipped turn."
+            lblMessage.Text = "Player could not move skipped turn."
             turn += 1
             skipturn = True
             makeTurn()
         End If
     End Sub
 
+    Private Sub computerTurn()
+        possible = False
+
+        refreshTiles()
+
+        Threading.Thread.Sleep(200)
+        If difficulty = 1 Then
+            For r = 1 To 8
+                For c = 1 To 8
+                    If Board(c, r) = 0 Then
+                        possibleCheck(c, r)
+                        If possible = True Then
+                            compx = c
+                            compy = r
+                            skipturn = False
+                            Exit For
+                        End If
+                    End If
+                Next
+                If possible = True Then Exit For
+            Next
+        ElseIf difficulty = 2 Then
+            Dim possibilities As New ArrayList
+            Dim length As Integer
+
+            For r = 1 To 8
+                For c = 1 To 8
+                    If Board(c, r) = 0 Then
+                        possible = False
+                        possibleCheck(c, r)
+                        If possible = True Then
+                            possibilities.Add(c & " " & r)
+                            skipturn = False
+                        End If
+                    End If
+                Next
+                'If possible = True Then Exit For
+            Next
+
+            length = possibilities.Count
+
+            If length = 0 Then
+                possible = False
+            Else
+                Dim rand As New Random
+                Dim pick As Integer
+                Dim coord As String
+
+                pick = rand.Next(1, length)
+
+                coord = possibilities(pick - 1).ToString
+
+                compx = Val(coord.Substring(0, 1))
+                compy = Val(coord.Substring(2, 1))
+            End If
+        End If
+    End Sub
+
     Private Sub btnNewGame_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnNewGame.Click
-        Dim Form1 As New Form1
+        Dim Menu As New Menu
         Me.Hide()
-        Form1.Show()
+        Menu.Show()
     End Sub
 
     Private Sub win(ByVal white, ByVal black)
         If white > black Then
-            MessageBox.Show("White won! \n Black:" & black & " White:" & white, "White Wins!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1)
+            MessageBox.Show("White won! " & vbNewLine & " Black: " & black & " White: " & white, "White Wins!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1)
+            mainMenu()
         ElseIf white < black Then
-            MessageBox.Show("Black won! \n Black:" & black & " White:" & white, "Black Wins!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1)
+            MessageBox.Show("Black won! " & vbNewLine & " Black: " & black & " White: " & white, "Black Wins!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1)
+            mainMenu()
         End If
     End Sub
 
@@ -1374,13 +1447,33 @@ Public Class Form1
             ovalTurn.FillColor = color2
             lblTurn.Text = "Black's Turn"
             'Board(x, y) = 1
+            If playercount = 1 Then
+                ' White's Turn
+                computerTurn()
+                check(compx, compy)
+                Board(compx, compy) = 1
+                refreshTiles()
+                count()
+                possible = False
+            End If
             turn += 1
         Else ' Black's Turn
             ovalTurn.FillColor = color1
             lblTurn.Text = "White's Turn"
             'Board(x, y) = 2
+            refreshTiles()
             turn += 1
         End If
         turnCalc()
+
+        If turn Mod 2 = 1 And playercount = 1 Then
+            makeTurn()
+        End If
+    End Sub
+
+    Private Sub mainMenu()
+        Dim Menu As New Menu
+        Me.Hide()
+        Menu.Show()
     End Sub
 End Class

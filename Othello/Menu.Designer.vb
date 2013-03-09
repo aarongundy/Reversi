@@ -25,9 +25,9 @@ Partial Class Menu
         Me.btnOnePlayer = New System.Windows.Forms.Button()
         Me.Button2 = New System.Windows.Forms.Button()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
-        Me.optEasy = New System.Windows.Forms.RadioButton()
-        Me.optMedium = New System.Windows.Forms.RadioButton()
         Me.optHard = New System.Windows.Forms.RadioButton()
+        Me.optMedium = New System.Windows.Forms.RadioButton()
+        Me.optEasy = New System.Windows.Forms.RadioButton()
         Me.GroupBox1.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -61,16 +61,15 @@ Partial Class Menu
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "Difficulty"
         '
-        'optEasy
+        'optHard
         '
-        Me.optEasy.AutoSize = True
-        Me.optEasy.Location = New System.Drawing.Point(7, 20)
-        Me.optEasy.Name = "optEasy"
-        Me.optEasy.Size = New System.Drawing.Size(48, 17)
-        Me.optEasy.TabIndex = 0
-        Me.optEasy.TabStop = True
-        Me.optEasy.Text = "Easy"
-        Me.optEasy.UseVisualStyleBackColor = True
+        Me.optHard.AutoSize = True
+        Me.optHard.Location = New System.Drawing.Point(7, 66)
+        Me.optHard.Name = "optHard"
+        Me.optHard.Size = New System.Drawing.Size(48, 17)
+        Me.optHard.TabIndex = 2
+        Me.optHard.Text = "Hard"
+        Me.optHard.UseVisualStyleBackColor = True
         '
         'optMedium
         '
@@ -79,20 +78,20 @@ Partial Class Menu
         Me.optMedium.Name = "optMedium"
         Me.optMedium.Size = New System.Drawing.Size(62, 17)
         Me.optMedium.TabIndex = 1
-        Me.optMedium.TabStop = True
         Me.optMedium.Text = "Medium"
         Me.optMedium.UseVisualStyleBackColor = True
         '
-        'optHard
+        'optEasy
         '
-        Me.optHard.AutoSize = True
-        Me.optHard.Location = New System.Drawing.Point(7, 66)
-        Me.optHard.Name = "optHard"
-        Me.optHard.Size = New System.Drawing.Size(48, 17)
-        Me.optHard.TabIndex = 2
-        Me.optHard.TabStop = True
-        Me.optHard.Text = "Hard"
-        Me.optHard.UseVisualStyleBackColor = True
+        Me.optEasy.AutoSize = True
+        Me.optEasy.Checked = True
+        Me.optEasy.Location = New System.Drawing.Point(7, 20)
+        Me.optEasy.Name = "optEasy"
+        Me.optEasy.Size = New System.Drawing.Size(48, 17)
+        Me.optEasy.TabIndex = 0
+        Me.optEasy.TabStop = True
+        Me.optEasy.Text = "Easy"
+        Me.optEasy.UseVisualStyleBackColor = True
         '
         'Menu
         '

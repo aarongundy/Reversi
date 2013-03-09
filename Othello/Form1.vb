@@ -1371,6 +1371,9 @@ Public Class Form1
     Private Sub computerTurn()
         possible = False
 
+        refreshTiles()
+
+        Threading.Thread.Sleep(200)
         If difficulty = 1 Then
             For r = 1 To 8
                 For c = 1 To 8
@@ -1393,9 +1396,10 @@ Public Class Form1
             For r = 1 To 8
                 For c = 1 To 8
                     If Board(c, r) = 0 Then
+                        possible = False
                         possibleCheck(c, r)
                         If possible = True Then
-                            possibilities.Add(c & r)
+                            possibilities.Add(c & " " & r)
                             skipturn = False
                         End If
                     End If
@@ -1403,30 +1407,37 @@ Public Class Form1
                 'If possible = True Then Exit For
             Next
 
-            length = possibilities.Capacity
+            length = possibilities.Count
 
-            Dim rand As New Random
-            rand.Next(0, length)
+            If length = 0 Then
+                possible = False
+            Else
+                Dim rand As New Random
+                Dim pick As Integer
+                Dim coord As String
 
+                pick = rand.Next(1, length)
 
-            'compx = c
-            'compy = r
+                coord = possibilities(pick - 1).ToString
+
+                compx = Val(coord.Substring(0, 1))
+                compy = Val(coord.Substring(2, 1))
+            End If
         End If
-        Threading.Thread.Sleep(500)
     End Sub
 
     Private Sub btnNewGame_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnNewGame.Click
-        Dim Form1 As New Form1
+        Dim Menu As New Menu
         Me.Hide()
-        Form1.Show()
+        Menu.Show()
     End Sub
 
     Private Sub win(ByVal white, ByVal black)
         If white > black Then
-            MessageBox.Show("White won! /n Black:" & black & " White:" & white, "White Wins!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1)
+            MessageBox.Show("White won! " & vbNewLine & " Black: " & black & " White: " & white, "White Wins!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1)
             mainMenu()
         ElseIf white < black Then
-            MessageBox.Show("Black won! /n Black:" & black & " White:" & white, "Black Wins!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1)
+            MessageBox.Show("Black won! " & vbNewLine & " Black: " & black & " White: " & white, "Black Wins!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1)
             mainMenu()
         End If
     End Sub
@@ -1450,6 +1461,7 @@ Public Class Form1
             ovalTurn.FillColor = color1
             lblTurn.Text = "White's Turn"
             'Board(x, y) = 2
+            refreshTiles()
             turn += 1
         End If
         turnCalc()
